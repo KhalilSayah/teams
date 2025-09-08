@@ -7,10 +7,14 @@ export type Team = {
   createdAt: Date;
 };
 
-export type Participant = {
+export type Specialization = 'IA' | 'Cyber' | 'WEB';
+
+export interface Participant {
   id: string;
   name: string;
+  email: string;
   discordId: string;
+  specialization: Specialization;
 };
 
 export type TeamFormData = {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { Team, TeamFormData, Participant } from '../types/Team';
+import type { Team, TeamFormData, Participant, Specialization } from '../types/Team';
 import './TeamForm.css';
 
 interface TeamFormProps {
@@ -12,7 +12,7 @@ const TeamForm: React.FC<TeamFormProps> = ({ onTeamCreate }) => {
     participants: []
   });
   
-  const [newParticipant, setNewParticipant] = useState({ name: '', discordId: '' });
+  const [newParticipant, setNewParticipant] = useState({ name: '', email: '', discordId: '', specialization: 'IA' as Specialization });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const teamColors = [
@@ -20,18 +20,27 @@ const TeamForm: React.FC<TeamFormProps> = ({ onTeamCreate }) => {
     '#10b981', '#06b6d4', '#ef4444', '#84cc16'
   ];
 
+  const getSpecializationColor = (specialization: Specialization): string => {
+    switch (specialization) {
+      case 'IA': return '#3b82f6'; // Blue
+      case 'Cyber': return '#ef4444'; // Red
+      case 'WEB': return '#10b981'; // Green
+      default: return '#6b7280'; // Gray
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleParticipantChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleParticipantChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setNewParticipant(prev => ({ ...prev, [name]: value }));
   };
 
   const addParticipant = () => {
-    if (newParticipant.name && newParticipant.discordId) {
+    if (newParticipant.name && newParticipant.email && newParticipant.discordId) {
       const participant: Participant = {
         id: Date.now().toString(),
         ...newParticipant
@@ -40,7 +49,7 @@ const TeamForm: React.FC<TeamFormProps> = ({ onTeamCreate }) => {
         ...prev,
         participants: [...prev.participants, participant]
       }));
-      setNewParticipant({ name: '', discordId: '' });
+      setNewParticipant({ name: '', email: '', discordId: '', specialization: 'IA' as Specialization });
     }
   };
 
@@ -109,12 +118,29 @@ const TeamForm: React.FC<TeamFormProps> = ({ onTeamCreate }) => {
                 placeholder="Member name"
               />
               <input
+                type="email"
+                name="email"
+                value={newParticipant.email}
+                onChange={handleParticipantChange}
+                placeholder="Email address"
+              />
+              <input
                 type="text"
                 name="discordId"
                 value={newParticipant.discordId}
                 onChange={handleParticipantChange}
                 placeholder="Discord ID"
               />
+              <select
+                name="specialization"
+                value={newParticipant.specialization}
+                onChange={handleParticipantChange}
+                className="specialization-select"
+              >
+                <option value="IA">IA</option>
+                <option value="Cyber">Cyber</option>
+                <option value="WEB">WEB</option>
+              </select>
             </div>
             <button type="button" onClick={addParticipant} className="add-btn">
               Add Member
@@ -126,7 +152,14 @@ const TeamForm: React.FC<TeamFormProps> = ({ onTeamCreate }) => {
               <div key={participant.id} className="participant-item">
                 <div className="participant-info">
                   <span className="participant-name">{participant.name}</span>
+                  <span className="participant-email">{participant.email}</span>
                   <span className="participant-discord">{participant.discordId}</span>
+                  <span 
+                    className="participant-specialization"
+                    style={{ color: getSpecializationColor(participant.specialization) }}
+                  >
+                    {participant.specialization}
+                  </span>
                 </div>
                 <button
                   type="button"

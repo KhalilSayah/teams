@@ -171,10 +171,42 @@
   margin-bottom: 0.25rem;
 }
 
+.participant-email {
+  display: block;
+  color: #6b7280;
+  font-size: 0.85rem;
+  margin-bottom: 0.125rem;
+}
+
 .participant-discord {
   display: block;
   color: #3b82f6;
   font-size: 0.85rem;
+}
+
+.participant-specialization {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 0.125rem;
+}
+
+.specialization-select {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: white;
+  color: #374151;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.specialization-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .remove-btn {
