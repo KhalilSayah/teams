@@ -60,11 +60,10 @@ const TeamCanvas: React.FC<TeamCanvasProps> = ({ teams, selectedTeam, onTeamSele
                     >
                       <span>{participant.name.charAt(0)}</span>
                       <div className="member-tooltip">
-                        <strong>{participant.name}</strong>
-                        <span>{participant.email}</span>
-                        <span>{participant.discordId}</span>
-                        <span style={{ color: getSpecializationColor(participant.specialization) }}>{participant.specialization}</span>
-                      </div>
+                          <strong>{participant.name}</strong>
+                          <span>{participant.discordId}</span>
+                          <span style={{ color: getSpecializationColor(participant.specialization) }}>{participant.specialization}</span>
+                        </div>
                     </div>
                   ))}
                   {team.participants.length > 3 && (
